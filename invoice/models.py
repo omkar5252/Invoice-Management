@@ -14,6 +14,10 @@ class InvoiceDetail(models.Model):
     quantity = models.IntegerField()
     price = models.FloatField(default=0)
     line_total = models.FloatField(default=0)
+    
+    def save(self, *args, **kwargs):
+        self.line_total = round(self.quantity * self.price, 2)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.description} - {self.invoice.invoice_number}"
